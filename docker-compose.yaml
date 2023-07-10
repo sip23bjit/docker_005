@@ -1,0 +1,26 @@
+version: '2'
+services:
+  mysql:
+    image: mysql:latest
+    container_name: db-container
+    environment:
+      - MYSQL_ROOT_PASSWORD="1234"
+      - MYSQL_DATABASE="sparklmsdb"
+    networks:
+      - my-network
+    ports:
+      - 3306:3306
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql
+    networks:
+      - my-network
+
+networks:
+  my-network:
